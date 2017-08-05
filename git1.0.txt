@@ -5,36 +5,28 @@
 
 	[$ git config --global user.email "email@example.com"]
 
-2.找一个合适的盘创建一个空目录名叫【git】。
 
-3.创建库
+2.在Git创建库→notebook
 
-	[$ mkdir notes]	//创建库
 
-	[$ cd notes]  //把库添加到git里 
+3.找一个的盘→创建一个空目录→并打开Git窗口
+
+	[git clone https://github.com/MX919/notebook]  //库的地址
+
+	[$ cd notebook]  //空目录出现notebook文件夹
 
 	[pwd]  //显示当前的路径
 
 
-4.通过命令把新库变成可以管理的仓库
-
-	[$ git init] //初始化
-
-	[Initialized empty Git repository in E:/HTML5/git/notes/.git/]
-
-
-5.在库里编辑一个git.txt文件并提交
+5.在notebook文件夹编辑git.txt文件
 
 	[$ git add git.txt]  //将文件添加到仓库
 
 	[git commit -m "Git notes"]  //将文件提交到仓库
 
 
-6.在Git上新建一个远程仓库
-
-	[$ git remote add origin https://github.com/MX919/notes.git]
-
-	[$ git push -u origin master]
+6.上传
+	[git push] //大功告成
 	
 	
 	

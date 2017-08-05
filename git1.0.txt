@@ -15,18 +15,36 @@
 
 	[$ cd notebook]  //空目录出现notebook文件夹
 
-	[pwd]  //显示当前的路径
+	[$ git init]     //初始化
+
+	[$ pwd]          //显示当前的路径
 
 
 5.在notebook文件夹编辑git.txt文件
 
-	[$ git add git.txt]  //将文件添加到仓库
+	[$ git add git.txt]    //将文件添加到仓库
 
-	[git commit -m "Git notes"]  //将文件提交到仓库
+	[$ git commit -m "Git notes"]  //将文件提交到仓库
 
 
 6.上传
-	[git push] //大功告成
+
+	[$ git push] //OK  了  吗？  然-而-并-没-有
+
+
+7.修改
+
+	[$ git add git1.0.txt] //将修改的文件添加到仓库
+
+	[$ git commit -m "git notes"] //提交到仓库
+	
+	[$ git push]	 //上传到服务器 
+	
+	[$ git pull]	 //更新
+	
+	[$ git log]      //查看
+
+	
 	
 	
 	

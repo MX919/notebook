@@ -1,0 +1,125 @@
+
+清  除  浮  动
+ ①.clearfix:before,.clearfix:after{
+        	content: '';
+        	display: table;
+        }
+   .clearfix:after{
+        	clear: both;
+        }
+
+ ②.main:after{
+      	 clear:both;
+      	 height:0;
+      	 content:"";
+      	 display: block
+         visibility: hidden;
+         }
+
+ ③<div style="clear:both"></div>
+
+----------------------------------------
+ vertical-align
+ 特点:inline-block和innline依赖型元素
+
+     :middle;    把此元素放置在父元素的中部
+     :baseline;  元素放置在父元素的基线上
+     :sub        垂直对齐文本的下标
+     :super      垂直对齐文本的上标
+     :top        把元素的顶端与行中最高元素的顶端对齐
+     :text-top   把元素的顶端与父元素字体的顶端对齐
+     :bottom     把元素的顶端与行中最低的元素的顶端对齐
+     :text-bottom把元素的底端与父元素字体的底端对齐
+     :inherit    规定应该从父元素继承vertical-align属性的值
+----------------------------------------
+
+ 透  明  度
+ opacity:0.6; 作用于元素，以及元素内的所有内容的透明度，
+ background:rgba(12,15,16,0.6); 只作用于元素的颜色或其背景色
+
+ filter:alpha(opacity=30);  IE高版本
+ -ms-filter："progid:DXImageTransform.Microsoft.ALpha(Opacity=30)"；
+
+----------------------------------------
+
+ position
+ position: absolute;会默认将元素转化为行级块
+
+----------------------------------------
+
+ 行级块
+     ①会使margin-left和margin-right会不起作用 不建议手机使用
+
+ 块  级
+     ①占据一整行，总是在新行上开始。
+     ②高度，行高，内外边距都可控制。
+     ③宽度与浏览器一致，与内容无关。
+     ④它可以容纳内联元素和块级元素。
+
+ 行  内
+     ①和其他元素在同一行上。
+     ②高，行高，内外边距部分可改变。
+     ③宽度只与内容有关，不可以设置宽高。
+     ④行内元素只能容纳文本与行元素。
+     ⑤宽度随内容增加，高度随字体大小增加。
+
+------------------------------------------
+
+ 元素处于中间
+ position: absolute;{
+           left: 0;
+           top: 0;
+           right: 0;
+           bottom: 0;
+           }
+ margin:  auto;
+
+------------------------------------------
+
+ display
+ display: table;该元素会作为块级表格元素来显示
+ display: table-call;该元素会作为表格单元格元素来显示
+
+ visibility: hidden;
+ visibility: visible;
+ 和displayh功能一样 但是占位置
+
+-----------------------------------------
+
+ 假传圣旨问题
+
+ 父元素的第一个子元素的上边距margin-top如果碰不到有效的border或者padding.
+ 就会不断一层一层的找自己?“领导”(父元素，祖先元素)的麻烦。
+
+ 只要给领导设置个有效的 border或者padding就可以有效的管制这个目无领导的margin防止它越级，
+ 把自己的margin当领导的margin执行，为父元素例子中的middle元素增加一个border-top或者padding-top即可解决这个问题。
+
+-----------------------------------------
+
+ font-size: 0; 和 -webkit-text-size-adjust:none; 可以去除inliner-block的间距
+
+ 给父级inline-block  子级设置block 父级和子级就会合并在一块了
+
+ vertical-align: middle; 去白边（图片垂直居中，去除图片周围的白边）
+
+ box-sizing: border-box;可以在宽度和高度之内绘制元素的内边距和边框，但是不可超过宽高的50%
+
+ font-size : 12px;
+ -webkit-transform :?scale(0.84,0.84);
+ *font-size:10px;
+ 解决谷歌字体最小12px的问题
+
+-----------------------------------------
+=========================================
+
+ 判断一个值是否等于true的时候 把true必须写前面
+
+-----------------------------------------
+
+JavaScript 只有声明的变量会提升，初始化的不会
+
+var x=5，不会提升
+
+var x；会提升
+
+------------------------------------------

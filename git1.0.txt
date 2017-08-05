@@ -1,4 +1,15 @@
 
+ Git的三个工作区域
+	
+　	◆ 工作区（Working Directory）
+
+　	◆ 暂存区（Stage）
+
+　	◆ 版本库（Repository）
+
+
+----------------------------------------------------------------
+
 1.Git安装（略）
 
 	[$ git config --global user.name "Your Name"]
@@ -36,15 +47,31 @@
 
 	[$ git add git1.0.txt] //将修改的文件添加到仓库
 
+	---以下三部每次 增、删、改 都必须执行---
+
 	[$ git commit -m "git notes"] //提交到仓库
 	
-	[$ git push]	 //上传到服务器 
+	[$ git push]	 //推送到服务器 
 	
 	[$ git pull]	 //更新
 	
-	[$ git log]      //查看
 
 	
+------------------------------------------------------
+
+  命令  
+ 
+	[$ git add .]         //添加所有修改(新)的
+
+	[$ git clone xxxx]    //拉取远程的Repo到本地
 	
+	[$ git rm 我的文件]   //删除文件
+
+	[$ git rm -r 文件夹/] //删除文件夹
+	
+	[$ git log]           //查看日志
+
+
+		
 	
 	

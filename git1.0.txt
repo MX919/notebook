@@ -71,7 +71,21 @@
 	
 	[$ git log]           //查看日志
 
+	[$ git status]        //查看状态
 
+  分支
+
+	[$ git branch]         //查看分支
+	
+	[$ git branch fenzhi]  //创建分支
+
+	[$ git checkout fenzhi]//切换分支
+
+	[$ git merge ali]      //合并分支
+
+  远程	
+	
+	[$ git remote -v]      //查看远程服务器
 		
 	
 	

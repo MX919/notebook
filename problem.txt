@@ -1,4 +1,4 @@
-
+﻿
 清  除  浮  动
  ①.clearfix:before,.clearfix:after{
         	content: '';
@@ -113,6 +113,21 @@
 =========================================
 
  判断一个值是否等于true的时候 把true必须写前面
+
+-----------------------------------------
+
+children获取使用的时候父级要具体化
+
+var li=document.querySelectorAll("li")[0]; //加索引
+
+var a=li.children; //不加索引获取就是undefined
+
+
+childrenDOM操作时要子元素个数要具体化children[0]
+
+li[i].children.style.color="red"; //undefined
+
+li[i].children[0].style.color="red"; //ok
 
 -----------------------------------------
 

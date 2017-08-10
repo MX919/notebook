@@ -1,0 +1,1086 @@
+
+块级作用域
+
+      var name = 'ES5'
+
+      while (true) {
+          var name = 'HMX'
+          console.log(name)  //HMX
+          break
+      }
+
+      console.log(name)  //HMX
+
+
+      let name = 'ES6'
+
+        while (true) {
+          let name = 'HMX'
+          console.log(name)  //HMX
+          break
+      }
+
+      console.log(name)  //ES6
+
+
+      ES5中只有\全局作用域和函数作用域/，没有块级作用域，从而导致  \内层变量覆盖外层变量/
+
+      ES6则新增了\块级作用域/，用它所声明的变量，只在命令所在的代码块内有效
+
+
+      for (let i = 0; i < 3; i++) {
+        let i = 'abc';
+        console.log(i);
+      }
+      // abc
+      // abc
+      // abc
+
+      输出了3次abc。这表明函数内部的变量i与循环变量i不在同一个作用域，
+
+      *变量i与循环变量i有各自单独的作用域。
+
+
+      var a = [];
+
+      for (var i = 0; i < 10; i++) {
+        a[i] = function () {
+          console.log(i);
+        };
+      }
+
+      a[6](); // 10
+
+
+      var a = [];
+
+      for (let i = 0; i < 10; i++) {
+        a[i] = function () {
+          console.log(i);
+        };
+      }
+
+      a[6](); // 6
+
+      带来的不合理场景就是用来计数的循环  \变量泄露为全局变量/
+
+      变量i是var声明的，在全局范围内都有效。所以每一次循环，新的i值都会覆盖旧值
+
+      导致最后输出的是最后一轮的i的值,而let就不会出现这个问题
+
+      *let不允许在相同作用域内，重复声明同一个变量
+
+      function f() { console.log('I am outside!'); }
+
+      (function () {
+        if (false) {
+          // 重复声明一次函数f
+          function f() { console.log('I am inside!'); }
+        }
+
+        f();
+      }());
+
+      ES6 引入了块级作用域，明确允许在块级作用域之中声明函数。ES6 规定，
+
+      块级作用域之中，函数声明语句的行为类似于let，在块级作用域之外不可引用。
+
+      *函数声明还会提升到所在的块级作用域的头部。
+
+      *ES6 的块级作用域允许声明函数的规则，只在使用大括号的情况下成立
+
+      ------------------------------------------------------------------
+
+不存在变量提升
+
+      // var 的情况
+      console.log(foo); // 输出undefined
+      var foo = 2;
+
+      // let 的情况
+      console.log(bar); // 报错ReferenceError
+      let bar = 2;
+
+      *let命令改变了语法行为，它所声明的变量一定要在声明后使用，否则报错。
+
+      -------------------------------
+
+暂时性死区
+
+      只要块级作用域内存在let命令，它所声明的变量就“绑定”（binding）这个区域，
+      不再受外部的影响。
+
+      var tmp = 123;
+
+      if (true) {
+        tmp = 'abc'; // ReferenceError
+        let tmp;
+      }
+
+      如果区块中存在let和const命令，这个区块对这些命令声明的变量，
+
+      从一开始就形成了封闭作用域。*凡是在声明之前就使用这些变量，就会报错。
+
+      使用let命令声明变量之前，该变量都是不可用  叫 “暂时性死区”
+
+      typeof x; // ReferenceError
+
+      let x;
+
+      暂时性死区”也意味着typeof不再是一个百分之百安全的操作。
+      ---------------------------------------------------
+
+do 表达式
+
+      {
+      let t = f();
+      t = t * t + 1;
+      }
+
+      块级作用域是一个语句，将多个操作封装在一起，没有返回值。
+
+      let x = do {
+        let t = f();
+        t * t + 1;
+      };
+
+      使得块级作用域可以变为表达式，也就是说可以返回值，
+
+      办法就是在块级作用域之前加上do，使它变为do表达式
+
+      上面代码中，变量x会得到整个块级作用域的返回值。
+
+      ---------------------------------------------------
+
+      var clickBoxs = document.querySelectorAll('.clickBox')
+
+      for (var i = 0; i < clickBoxs.length; i++){
+          clickBoxs[i].onclick = function(){
+              console.log(i)
+          }
+      }
+
+      我们本来希望的是点击不同的clickBox，显示不同的i，
+
+      但事实是无论我们点击哪个clickBox，输出的都是5
+
+      function iteratorFactory(i){
+        var onclick = function(e){
+            console.log(i)
+          }
+        return onclick;
+      }
+
+      var clickBoxs = document.querySelectorAll('.clickBox')
+      for (var i = 0; i < clickBoxs.length; i++){
+          clickBoxs[i].onclick = iteratorFactory(i)
+      }
+
+      闭包可以解决这个问题
+      ----------------------------------------------
+
+const
+
+      const PI = 3.1415;
+      PI // 3.1415
+
+      PI = 3;
+      //TypeError: Assignment to constant variable.
+
+      const声明一个只读的常量。一旦声明，常量的值就不能改变
+
+      const一旦声明变量，就必须立即初始化，不能留到以后赋值
+
+      const的作用域与let命令相同：只在声明所在的块级作用域内有效
+
+      const声明的常量，也与let一样不可重复声明。
+
+      const命令声明的常量也是不提升，同样存在暂时性死区，
+
+      只能在声明的位置后面使用。
+
+      --------------------------------------------
+
+本质
+
+      const实际上保证的，并不是变量的值不得改动，而是变量指向的那个内存地址不得改动
+      对于简单类型的数据（数值、字符串、布尔值），值就保存在变量指向的那个内存地址
+
+      但对于复合类型的数据（主要是对象和数组），变量指向的内存地址，保存的只是一个指针
+      至于它指向的数据结构是不是可变的，就完全不能控制了
+
+      const foo = {};
+
+      // 为 foo 添加一个属性，可以成功
+      foo.prop = 123;
+      foo.prop // 123
+
+      // 将 foo 指向另一个对象，就会报错
+      foo = {}; // TypeError: "foo" is read-only
+
+      常量foo储存的是一个地址，这个地址指向一个对象。不可变的只是这个地址
+
+      即不能把foo指向另一个地址，但对象本身是可变的，所以依然可以为其添加新属性
+
+      const a = [];
+      a.push('Hello'); // 可执行
+      a.length = 0;    // 可执行
+      a = ['Dave'];    // 报错
+
+      常量a是一个数组，这个数组本身是可写的，
+
+      但是如果将另一个数组赋值给a，就会报错。
+
+      var a = 1;
+      // 如果在Node的REPL环境，可以写成global.a
+      // 或者采用通用方法，写成this.a
+      window.a // 1
+
+      let b = 1;
+      window.b // undefined
+
+      全局变量a由var命令声明，所以它是顶层对象的属性
+
+      全局变量b由let命令声明，所以它不是顶层对象的属性，返回undefined。
+
+      --------------------------------------------
+
+数组的解构赋值
+
+      let [a, b, c] = [1, 2, 3];
+
+      以从数组中提取值，按照对应位置，对变量赋值
+
+      let [foo, [[bar], baz]] = [1, [[2], 3]];
+      foo // 1
+      bar // 2
+      baz // 3
+
+      let [ , , third] = ["foo", "bar", "baz"];
+      third // "baz"
+
+      let [x, , y] = [1, 2, 3];
+      x // 1
+      y // 3
+
+      let [head, ...tail] = [1, 2, 3, 4];
+      head // 1
+      tail // [2, 3, 4]
+
+      let [x, y, ...z] = ['a'];
+      x // "a"
+      y // undefined
+      z // []
+
+
+      let [x, y] = [1, 2, 3];
+      x // 1
+      y // 2
+
+      let [a, [b], d] = [1, [2, 3], 4];
+      a // 1
+      b // 2
+      d // 4
+
+      不完全结构也可以成功
+
+      let [foo] = 1;
+      let [foo] = false;
+      let [foo] = NaN;
+      let [foo] = undefined
+
+      如果等号的右边不是数组，那么将会报错。
+
+      let [x, y, z] = new Set(['a', 'b', 'c']);
+      x // "a"
+
+      Set 结构，也可以使用数组的解构赋值。
+
+      let [foo = true] = [];
+      foo // true
+
+      let [x, y = 'b'] = ['a']; // x='a', y='b'
+      let [x, y = 'b'] = ['a', undefined]; // x='a', y='b'
+
+      解构赋值允许指定默认值。
+
+      let [x = 1] = [undefined];
+      x // 1
+
+      let [x = 1] = [null];
+      x // null
+
+      ES6 内部使用严格相等运算符（===），判断一个位置是否有值。
+
+      所以，如果一个数组成员不严格等于undefined，默认值是不会生效的。
+
+      数组成员是null，默认值就不会生效，因为null不严格等于undefined。
+
+      function f() {
+        console.log('aaa');
+      }
+
+      let [x = f()] = [1]; //x=1
+
+      如果默认值是一个表达式，那么这个表达式是惰性求值的，即只有在用到的时候，才会求值。
+
+      x能取到值，所以函数f根本不会执行。
+
+      let [x = 1, y = x] = [];     // x=1; y=1
+      let [x = 1, y = x] = [2];    // x=2; y=2
+      let [x = 1, y = x] = [1, 2]; // x=1; y=2
+      let [x = y, y = 1] = [];     // ReferenceError
+
+      面最后一个表达式之所以会报错，是因为x用到默认值y时，y还没有声明。
+
+      ---------------------------------------------
+
+对象的解构赋值
+
+      let { foo, bar } = { foo: "aaa", bar: "bbb" };
+      foo // "aaa"
+      bar // "bbb"
+
+      对象的解构与数组有一个重要的不同。数组的元素是按次序排列的，变量的取值由它的位置决定；
+
+      而对象的属性没有次序，变量必须与属性同名，才能取到正确的值。
+
+      let { foo: foo, bar: bar } = { foo: "aaa", bar: "bbb" };
+
+      对象的解构赋值的内部机制，是先找到同名属性，
+
+      然后再赋给对应的变量。真正被赋值的是后者，而不是前者。
+
+      var {x = 3} = {x: undefined};
+      x // 3
+
+      var {x = 3} = {x: null};
+      x // null
+
+      默认值生效的条件是，对象的属性值严格等于undefined。
+
+      ----------------------------------------------
+
+字符串的解构赋值
+
+      const [a, b, c, d, e] = 'hello';
+      a // "h"
+      b // "e"
+      c // "l"
+      d // "l"
+      e // "o"
+
+      字符串也可以解构赋值。这是因为此时，字符串被转换成了一个类似数组的对象。
+
+      let {length : len} = 'hello';
+      len // 5
+
+      类似数组的对象都有一个length属性，因此还可以对这个属性解构赋值。
+
+      --------------------------------------------
+
+数值和布尔值的解构赋值
+
+      let {toString: s} = 123;
+      s === Number.prototype.toString // true
+
+      let {toString: s} = true;
+      s === Boolean.prototype.toString // true
+
+      如果等号右边是数值和布尔值，则会先转为对象。
+
+      数值和布尔值的包装对象都有toString属性，因此变量s都能取到值。
+
+
+      let { prop: x } = undefined; // TypeError
+      let { prop: y } = null; // TypeError
+
+      解构赋值的规则是，只要等号右边的值不是对象或数组，就先将其转为对象。
+
+      由于undefined和null无法转为对象，
+
+      所以对它们进行解构赋值，都会报错。
+      -------------------------------------------
+
+函数参数的解构赋值
+
+      function add([x, y]){
+        return x + y;
+      }
+
+      add([1, 2]); // 3
+
+      [[1, 2], [3, 4]].map(([a, b]) => a + b);
+      // [ 3, 7 ]
+
+      函数add的参数表面上是一个数组，
+
+      但在传入参数的那一刻，数组参数就被解构成变量x和y
+
+      对于函数内部的代码来说，它们能感受到的参数就是x和y
+
+      function move({x = 0, y = 0} = {}) {
+        return [x, y];
+      }
+
+      move({x: 3, y: 8}); // [3, 8]
+      move({x: 3}); // [3, 0]
+      move({}); // [0, 0]
+      move(); // [0, 0]
+
+      函数参数的解构也可以使用默认值。
+
+      函数move的参数是一个对象，通过对这个对象进行解构，得到变量x和y的值。
+
+      如果解构失败，x和y等于默认值。
+
+      function move({x, y} = { x: 0, y: 0 }) {
+        return [x, y];
+      }
+
+      move({x: 3, y: 8}); // [3, 8]
+      move({x: 3}); // [3, undefined]
+      move({}); // [undefined, undefined]
+      move(); // [0, 0]
+
+      上面代码是为函数move的参数指定默认值，而不是为变量x和y指定默认值
+
+      所以会得到与前一种写法不同的结果。
+
+      [1, undefined, 3].map((x = 'yes') => x);
+      // [ 1, 'yes', 3 ]
+
+      undefined就会触发函数参数的默认值。
+      --------------------------------------
+
+用途
+
+      let x = 1;
+      let y = 2;
+
+      [x, y] = [y, x];
+
+      交换变量x和变量y的值
+
+      // 返回一个数组
+
+      function example() {
+        return [1, 2, 3];
+      }
+      let [a, b, c] = example();
+
+      // 返回一个对象
+
+      function example() {
+        return {
+          foo: 1,
+          bar: 2
+        };
+      }
+      let { foo, bar } = example();
+
+      函数只能返回一个值，如果要返回多个值，只能将它们放在数组或对象里返回。
+
+      而解构赋值就可以
+
+      // 参数是一组有次序的值
+      function f([x, y, z]) { ... }
+      f([1, 2, 3]);
+
+      // 参数是一组无次序的值
+      function f({x, y, z}) { ... }
+      f({z: 3, y: 2, x: 1});
+
+      解构赋值可以方便地将一组参数与变量名对应起来。
+
+      let jsonData = {
+        id: 42,
+        status: "OK",
+        data: [867, 5309]
+      };
+
+      let { id, status, data: number } = jsonData;
+
+      console.log(id, status, number);
+      // 42, "OK", [867, 5309]
+
+      解构赋值对提取JSON对象中的数据，尤其有用。
+
+      上面代码可以快速提取 JSON 数据的值。
+      -------------------------------------
+
+遍历Map结构
+
+      var map = new Map();
+      map.set('first', 'hello');
+      map.set('second', 'world');
+
+      for (let [key, value] of map) {
+      console.log(key + " is " + value);
+      }
+      // first is hello
+      // second is world
+
+      Map结构原生支持Iterator接口，配合变量的解构赋值，获取键名和键值就非常方便
+
+      // 获取键名
+      for (let [key] of map) {
+        // ...
+      }
+
+      // 获取键值
+      for (let [,value] of map) {
+        // ...
+      }
+
+      只想获取键名，或者只想获取键值。
+
+      const { SourceMapConsumer, SourceNode } = require("source-map");
+
+      加载模块时，往往需要指定输入哪些方法。解构赋值使得输入语句非常清晰。
+
+      ---------------------------------------------
+
+字符串的遍历器接口
+
+      for (let zfc of 'foo') {
+      console.log(zfc)
+      }
+      // "f"
+      // "o"
+      // "o"
+
+      遍历字符串
+      ---------------------------------------------
+
+includes(), startsWith(), endsWith()
+
+      var s = 'Hello world!';
+
+      s.startsWith('Hello') // true
+      s.endsWith('!') // true
+      s.includes('o') // true
+
+      includes()：返回布尔值，表示是否找到了参数字符串。
+      startsWith()：返回布尔值，表示参数字符串是否在源字符串的头部。
+      endsWith()：返回布尔值，表示参数字符串是否在源字符串的尾部。
+
+      var s = 'Hello world!';
+
+      s.startsWith('world', 6) // true
+      s.endsWith('Hello', 5) // true
+      s.includes('Hello', 6) // false
+
+      这三个方法都支持第二个参数，表示开始搜索的位置。
+
+      使用第二个参数n时，endsWith的行为与其他两个方法有所不同。
+
+      它针对前n个字符，而其他两个方法针对从第n个位置直到字符串结束。
+      -------------------------------------
+
+repeat()
+
+      'x'.repeat(3) // "xxx"
+      'hello'.repeat(2) // "hellohello"
+      'na'.repeat(0) // ""
+
+      repeat方法返回一个新字符串，表示将原字符串重复n次。
+
+      'na'.repeat(2.9) // "nana"
+
+      参数如果是小数，会被向下取整。
+
+      如果repeat的参数是负数或者Infinity，会报错。
+
+      如果参数是0到-1之间的小数，则等同于0
+
+      参数NaN等同于0。
+
+      'na'.repeat('na') // ""
+      'na'.repeat('3') // "nanana"
+
+      如果repeat的参数是字符串，则会先转换成数字
+      ---------------------------------------
+
+padStart()，padEnd()
+
+      'x'.padStart(5, 'ab') // 'ababx'
+      'x'.padStart(4, 'ab') // 'abax'
+
+      'x'.padEnd(5, 'ab') // 'xabab'
+      'x'.padEnd(4, 'ab') // 'xaba'
+
+      padStart()用于头部补全，padEnd()用于尾部补全。
+      ----------------------------------------
+
+函数的扩展
+
+      //ES5
+      function log(x, y) {
+      y = y || 'World';
+      console.log(x, y);
+      }
+
+      log('Hello') // Hello World
+      log('Hello', 'China') // Hello China
+      log('Hello', '') // Hello World
+
+      上面代码检查函数log的参数y有没有赋值，如果没有，则指定默认值为World
+
+      这种写法的缺点在于，如果参数y赋值了，但是对应的布尔值为false，则该赋值不起作用。
+
+      if (typeof y === 'undefined') {
+        y = 'World';
+      }
+
+      避免这个问题，通常需要先判断一下参数y是否被赋值，如果没有，再等于默认
+
+
+      //ES6
+      function Point(x = 0, y = 0) {
+        this.x = x;
+        this.y = y;
+      }
+
+      var p = new Point();
+      p // { x: 0, y: 0 }
+
+      ES6 允许为函数的参数设置默认值，即直接写在参数定义的后面
+
+      function foo(x = 5) {
+        let x = 1; // error
+        const x = 2; // error
+      }
+
+      参数变量是默认声明的，所以不能用let或const再次声明。
+
+      参数变量x是默认声明的，在函数体中，不能用let或const再次声明，否则会报错。
+
+      function foo(x, x, y = 1) {
+        // ...
+      }
+      // parameter name not allowed in this context
+
+      使用参数默认值时，函数不能有同名参数。
+
+      let x = 99;
+      function foo(p = x + 1) {
+        console.log(p);
+      }
+
+      foo() // 100
+
+      x = 100;
+      foo() // 101
+
+      参数p的默认值是x + 1。这时，每次调用函数foo
+
+      都会重新计算x + 1，而不是默认p等于 100。
+      ------------------------------------
+
+Set
+
+      const s = new Set();
+
+      [2, 3, 5, 4, 5, 2, 2].forEach(x => s.add(x));
+
+      for (let i of s) {
+        console.log(i);
+      }
+      // 2 3 5 4
+
+      Set 本身是一个构造函数，用来生成 Set 数据结构。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class, extends, super
+
+      class Animal {
+        constructor(){
+          this.type = 'animal'
+        }
+        says(say){
+          console.log(this.type + ' says ' + say)
+        }
+      }
+
+      let animal = new Animal()
+      animal.says('hello') //animal says hello
+
+      class Cat extends Animal {
+        constructor(){
+            super()
+            this.type = 'cat'
+        }
+      }
+
+      let cat = new Cat()
+      cat.says('hello') //cat says hello
+
+      新的class写法让对象原型的写法更加清晰、更像面向对象编程的语法，也更加通俗易懂
+
+      上面代码首先用class定义了一个“类”，可以看到里面有一个constructor方法，
+
+      这就是构造方法，而this关键字则代表实例对象。简单地说，
+
+      constructor内定义的方法和属性是实例对象自己的，
+
+      而constructor外定义的方法和属性则是所有实例对象可以共享的
+      ---------------------------
+      Class之间可以通过extends关键字实现继承，这比ES5的通过修改原型链实现继承，
+
+      要清晰和方便很多。上面定义了一个Cat类，该类通过extends关键字，
+
+      继承了Animal类的所有属性和方法。
+      ----------------------------
+      super关键字，它指代父类的实例（即父类的this对象）,
+
+      子类必须在constructor方法中调用super方法，
+
+      否则新建实例时会报错。这是因为子类没有自己的this对象，
+
+      而是继承父类的this对象，然后对其进行加工。
+
+      如果不调用super方法，子类就得不到this对象。
+      -----------------------------
+      ES6的继承机制，实质是先创造父类的实例对象this（所以必须先调用super方法），
+
+      然后再用子类的构造函数修改this。
+
+      --------------------------------------------------
+
+arrow function
+
+    function(i){ return i + 1; } //ES5
+    (i) => i + 1 //ES6
+
+    用它来写function比原来的写法要简洁清晰很多
+
+    function(x, y) {
+        x++;
+        y--;
+        return x + y;
+    }
+
+    (x, y) => {x++; y--; return x+y}
+
+
+    var total = values.reduce(function (a, b) {
+     return a + b;
+     }, 0);
+
+    var total = values.reduce((a, b) => a + b, 0);
+
+    如果方程比较复杂，则需要用{}把代码包起来：
+
+    // ES5
+    $("#confetti-btn").click(function (event) {
+      playTrumpet();
+      fireConfettiCannon();
+    });
+
+    // ES6
+   $("#confetti-btn").click(event => {
+     playTrumpet();
+     fireConfettiCannon();
+   });
+
+   *使用了块语句的箭头函数不会自动返回值，需要使用语句将所需值返回。return
+
+   var chewToys = puppies.map(puppy => {});   // 这样写会报Bug！
+   var chewToys = puppies.map(puppy => ({})); //
+
+   *当使用箭头函数创建普通对象时，你总是需要将对象包裹在小括号里。
+
+   一个空对象和一个空的块看起来完全一样。 ES6中的规则是
+
+   紧随箭头的{被解析为块的开始，而不是对象的开始。
+
+   这段代码就被解析为没有任何行为并返回的箭头函数{}{}puppy => {}undefined
+
+   JavaScript引擎会将类似的对象字面量解析为一个包含标记语句的块。
+
+   所以用小括号包裹对象字面量是唯一一个你需要牢记的小窍门。{key: value}{
+
+   -------------------------------------------------
+
+this
+
+    class Animal {
+        constructor(){
+          this.type = 'animal'
+        }
+
+        says(say){
+          setTimeout(function(){
+              console.log(this.type + ' says ' + say)
+          }, 1000)
+       }
+    }
+
+    var animal = new Animal()
+    animal.says('hi')  //undefined says hi
+
+    运行上面的代码会报错，这是因为setTimeout中的this指向的是全局对象
+
+    以下解决方案
+
+    -----------------------
+
+    1.第一种是将this传给self,再用self来指代this
+
+    says(say){
+      var self = this;
+      setTimeout(function(){
+          console.log(self.type + ' says ' + say)
+      }, 1000)
+    }
+
+    2.第二种方法是用bind(this)
+
+    says(say){
+      setTimeout(function(){
+          console.log(this.type + ' says ' + say)
+      }.bind(this), 1000)
+    }
+
+    3.箭头函数
+
+    class Animal {
+      constructor(){
+          this.type = 'animal'
+      }
+      says(say){
+          setTimeout( () => {
+            console.log(this.type + ' says ' + say)
+          }, 1000)
+       }
+    }
+
+   var animal = new Animal()
+   animal.says('hi')  //animal says hi
+
+   使用箭头函数时，函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象。
+
+   并不是因为箭头函数内部有绑定this的机制，实际原因是箭头函数根本没有自己的this，
+
+   它的this是继承外面的，因此内部的this就是外层代码块的this
+
+   *箭头函数没有它自己的this值，箭头函数内的值继承自外围作用域。functionthis
+
+   ----------------------------------------------
+
+template string
+
+    传统写法
+    $("#result").append(
+      "There are <b>" + basket.count + "</b> " +
+      "items in your basket, " +
+      "<em>" + basket.onSale +
+      "</em> are on sale!"
+    );
+
+    ES6写法
+    $("#result").append(`
+      There are <b>${basket.count}</b> items
+      in your basket, <em>${basket.onSale}</em>
+      are on sale!
+    `);
+
+    用ES6的新特性模板字符串``后,直接写
+
+    用反引号（\）来标识起始，用${}`来引用变量，
+
+    而且所有的空格和缩进都会被保留在输出之中
+
+    ------------------------------------
+
+destructuring
+
+  //传统
+  let cat = 'ken'
+  let dog = 'lili'
+  let zoo = {cat: cat, dog: dog}
+  console.log(zoo)  //Object {cat: "ken", dog: "lili"}
+
+  //ES6写法
+  let cat = 'ken'
+  let dog = 'lili'
+  let zoo = {cat, dog}
+  console.log(zoo)  //Object {cat: "ken", dog: "lili"}
+
+  //反过来写
+  let dog = {type: 'animal', many: 2}
+  let { type, many} = dog
+  console.log(type, many)   //animal 2
+
+  ES6允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构
+
+  ------------------------------------
+
+default(默认值)
+
+  function animal(type){
+    type = type || 'cat'
+    console.log(type)
+  }
+  animal()
+
+  调用animal()方法时忘了传参数，传统的做法就是
+
+  加上这一句type = type || 'cat' 来指定默认值
+
+  //ES6写法
+  function animal(type = 'cat'){
+    console.log(type)
+  }
+  animal()
+  ---------------------------
+
+rest
+
+  function animals(...types){
+    console.log(types)
+  }
+ animals('cat', 'dog', 'fish') //["cat", "dog", "fish"]
+
+ 而如果不用ES6的话，我们则得使用ES5的arguments
+ -----------------------------
+
+import(接收) export(输出)
+
+  假设我们有两个js文件: index.js和content.js
+  现在我们想要在index.js中使用content.js返回的结果，我们要怎么做呢？
+
+  //传统写法
+
+      首先定义：
+      //content.js
+      define('content.js', function(){
+          return 'A cat';
+      })
+
+      然后require：
+      //index.js
+      require(['./content.js'], function(animal){
+          console.log(animal);   //A cat
+      })
+
+  //CommonJS写法
+
+      //index.js
+      var animal = require('./content.js')
+
+      //content.js
+      module.exports = 'A cat'
+
+  //ES6写法
+
+    //index.js
+    import animal from './content'
+
+    //content.js
+    export default 'A cat'
+
+    -------------------------------------------
+
+ES6 module的其他高级用法
+
+    //content.js
+
+    export default 'A cat'
+    export function say(){
+      return 'Hello!'
+    }
+    export const type = 'dog'
+
+    export命令除了输出变量，还可以输出函数，甚至是类（react的模块基本都是输出类）
+    -------------------------------------------------------------
+    //index.js
+
+    import { say, type } from './content'
+    let says = say()
+    console.log(`The ${type} says ${says}`)  //The dog says Hello
+
+    注意：大括号里面的变量名，必须与被导入模块（content.js）对外接口的名称相同。
+    ---------------------------------------------------------------
+    //index.js
+
+    import animal, { say, type } from './content'
+    let says = say()
+    console.log(`The ${type} says ${says} to ${animal}`)
+    //The dog says Hello to A cat
+
+    如果还希望输入content.js中输出的默认值(default), 可以写在大括号外面。
+    ---------------------------------------------------------------
+    //index.js
+
+    import animal, { say, type as animalType } from './content'
+    let says = say()
+    console.log(`The ${animalType} says ${says} to ${animal}`)
+    //The dog says Hello to A cat
+
+    type它有可能重名，所以我们需要\修改它的变量名\。在es6中可以用as实现一键换名
+    ---------------------------------------------------------------
+
+    //index.js
+
+    import animal, * as content from './content'
+    let says = content.say()
+    console.log(`The ${content.type} says ${says} to ${animal}`)
+    //The dog says Hello to A cat
+
+
+    除了指定加载某个输出值，还可以使用整体加载，即用星号（*）指定一个对象，
+
+    所有输出值都加载在这个对象上面。 \模块的整体加载\
+
+    通常星号*结合as一起使用比较合适。
+    -----------------------------
+
+
+    考虑下面的场景：上面的content.js一共输出了三个变量（default, say, type）,
+
+    假如我们的实际项目当中只需要用到type这一个变量，
+
+    其余两个我们暂时不需要。我们可以只输入一个变量：
+
+    import { type } from './content'

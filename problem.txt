@@ -1,5 +1,8 @@
 ﻿
 
+	CSS书写格式  1.位置  2.大小  3.文字 4.背景   
+
+
 清  除  浮  动
  ①.clearfix:before,.clearfix:after{
         	content: '';

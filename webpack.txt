@@ -17,7 +17,13 @@
 
 7.启动服务  npm run dev
 
-8.安装less   cnpm install less less-loader -d
+8.安装less    cnpm install less less-loader -d
+
+9.安装stylus  cnpm install stylus stylus-loader -d
+
+10.安装axios  cnpm install axios --save 
+
+11.安装懒加载 npm install vue-lazyload
 
 ----------------webpack-simple-------------------------
 
@@ -48,6 +54,8 @@
  npm cache cleane  清缓存
 
 --------------------------------------------------------
+
+
 
 
 

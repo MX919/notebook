@@ -1,4 +1,5 @@
 ﻿
+
 清  除  浮  动
  ①.clearfix:before,.clearfix:after{
         	content: '';
@@ -20,6 +21,7 @@
 
 ----------------------------------------
  vertical-align
+
  特点:inline-block和innline依赖型元素
 
      :middle;    把此元素放置在父元素的中部
@@ -43,12 +45,12 @@
 ----------------------------------------
 
  position
- position: absolute;会默认将元素转化为行级块
+ position: absolute;会默认将元素转化为行级块 会使margin-left和margin-right会不起作用 不建议手机使用
+
+		    *非absolute的行级块可以设置margin-left和margin-right
 
 ----------------------------------------
 
- 行级块
-     ①会使margin-left和margin-right会不起作用 不建议手机使用
 
  块  级
      ①占据一整行，总是在新行上开始。
@@ -62,6 +64,7 @@
      ③宽度只与内容有关，不可以设置宽高。
      ④行内元素只能容纳文本与行元素。
      ⑤宽度随内容增加，高度随字体大小增加。
+     ⑥不可以设置上下margin
 
 ------------------------------------------
 
@@ -74,6 +77,13 @@
            }
  margin:  auto;
 
+ 水平对齐
+ 	 display: inline-block;
+	 height: ;  
+	 line-height:  ;
+	 vertical-align: middle;
+	 padding/margin
+	
 ------------------------------------------
 
  display
@@ -85,6 +95,12 @@
  visibility: hidden;
  visibility: visible;
  和displayh功能一样 但是占位置
+
+ 浮动 会使父级padding-bottom在浮动的元素上不起作用  
+
+ &.invoice{background: url("invoice_3@2x.png") no-repeat center/20px 20px;}
+
+ ipconfig 查IP地址
 
 -----------------------------------------
 

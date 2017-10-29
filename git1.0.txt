@@ -10,82 +10,93 @@
 
 ----------------------------------------------------------------
 
-1.Git安装（略）
+1.Git安装
 
-	[$ git config --global user.name "Your Name"]
+	[$ git config --global user.name "MX919"]
 
-	[$ git config --global user.email "email@example.com"]
+	[$ git config --global user.email "55388043@qq.com"]
+
+2.Git设置
+
+	[$ ssh-keygen -t rsa -C "55388043@qq.com"]  创建SSH Key
+	
+	配置公钥 id_rsa.pub
+
+	创建远程库 learngit
+
+	[$ git remote add origin git@github.com:MX919/learngit.git] 远程库与本地库连接
+
+	[$ git push -u origin master] 第一次推送 
+
+	[$ git push origin master] 以后推送
 
 
-2.在Git创建库→notebook
+2.在Git创建本地版本库（远程库名一致）
 
 
 3.找一个的盘→创建一个空目录→并打开Git窗口
 
-	[git clone https://github.com/MX919/notebook]  //库的地址
-
-	[$ cd notebook]  //空目录出现notebook文件夹
-
-	[$ git init]     //初始化
-
-	[$ pwd]          //显示当前的路径
-
-
-5.在notebook文件夹编辑git.txt文件
-
-	[$ git add git.txt]    //将文件添加到仓库
-
-	[$ git commit -m "Git notes"]  //将文件提交到仓库
-
-
-6.上传
-
-	[$ git push] //OK  了  吗？  然-而-并-没-有
-
-
-7.修改
-
-	[$ git add git1.0.txt] //将修改的文件添加到仓库
-
-	---以下三部每次 增、删、改 都必须执行---
-
-	[$ git commit -m "git notes"] //提交到仓库
-	
-	[$ git push]	 //推送到服务器 
-	
-	[$ git pull]	 //更新
-	
-
-	
-------------------------------------------------------
-
-  命令  
+		[$ mkdir learngit]  创建库
  
-	[$ git add .]         //添加所有修改(新)的
+		[$ cd learngit]     进入库
+ 
+		[$ pwd]             显示路径
 
-	[$ git clone xxxx]    //拉取远程的Repo到本地
+		[$ git init]        初始化git目录
+
+		[$ git status]      查看当前状态
+
+		[$ git add txt.txt] 添加到暂存区
+
+		[$ git commit -m "说明"] 添加到版本库
+
+		[$ git diff]        查看修改内容
+
+		[$ git log]         查看提交版本 （git log --pretty=oneline）
+		
+		[$ git reset --hard HEAD^]    退回上一个版本 （HEAD~100）
+ 
+		[$ git reset --hard 3628164]  前进一个版本
+
+		[$ cat readme.txt]  查看当前内容
+
+		[$ git reflog]      查看命令历史
+
+		[$ git checkout -- readme.txt]  撤销工作区内容
+
+      		[$ git reset HEAD readme.txt]   暂存区的修改回退到工作区
+
+		[$ rm test.txt]      删除工作区文件
+
+		[$ git rm test.txt]  从版本库删除文件并 commit
+
+		[$ git rm -r 文件夹] 删除文件夹
+ 
+		[$ git checkout -- test.txt]  其实是用版本库里的版本替换工作区的版本
+
 	
-	[$ git rm 我的文件]   //删除文件
+----------------------------------------------------------------------------------
 
-	[$ git rm -r 文件夹/] //删除文件夹
+ 克隆  
+ 
+
+	[$ git clone https://github.com/MX919/notebook]    //克隆远程库到本地
 	
-	[$ git log]           //查看日志
-
-	[$ git status]        //查看状态
-
-  分支
-
-	[$ git branch]         //查看分支
 	
-	[$ git branch fenzhi]  //创建分支
+ 分支
 
-	[$ git checkout fenzhi]//切换分支
+	[$ git branch]            //查看分支
+	
+	[$ git branch dev]        //创建分支
 
-	[$ git merge ali]      //合并分支
+	[$ git checkout dev]      //切换分支
 
-  远程	
+	[$ git merge dev]         //合并到当前分支
+
+	[$ git branch -d dev]     //删除分支
+
+ 远程	
 	
 	[$ git remote -v]      //查看远程服务器
-		
 	
 	
